@@ -20,8 +20,7 @@ pipeline {
         stage("GoSec Security Scan") {
             steps {
                 script {
-                    // Install GoSec if it's not already installed
-                    sh 'go install github.com/securego/gosec/v2/cmd/gosec@latest'
+                    
                     // Run GoSec and output results to 'gosec-report.json'
                     sh 'gosec -fmt=json -out=gosec-report.json ./...'
                 }
