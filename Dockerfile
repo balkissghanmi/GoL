@@ -6,7 +6,7 @@ FROM golang:1.22
 WORKDIR /app
 
 # Download Go modules
-COPY go.mod go.sum ./
+COPY go.mod  ./
 
 # Copy the source code. 
 COPY *.go ./
