@@ -6,6 +6,8 @@ pipeline {
     }
     environment {
     PATH = "/usr/local/go/bin:${env.PATH}"
+    DOCKERHUB_USERNAME = 'balkissd'
+    STAGING_TAG = "${DOCKERHUB_USERNAME}/go:v1.0.0"
 }
     stages {
         stage("go version") {
@@ -24,6 +26,7 @@ pipeline {
                     // Run GoSec and output results to 'gosec-report.json'
                     sh 'gosec -fmt=json -out=gosec-report.json ./...'
                     sh 'golangci-lint run ./... > golangci-report.txt'
+                    
                 }
             }
         }
@@ -35,6 +38,18 @@ pipeline {
             }
         }
     }
+    stage('Docker'){
+        steps {
+            script{
+                sh "docker build -t ${STAGING_TAG} ."
+                withCredentials([usernamePassword(credentialsId: 'tc', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                sh "docker push ${STAGING_TAG}"
+            }
+        }
+    }
+    }
+    
     }
     
     }
