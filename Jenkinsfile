@@ -26,7 +26,6 @@ pipeline {
                 sh ' go version'
                 sh '/usr/local/go/bin/go build -o goL'
                 sh '/usr/local/go/bin/go test'
-                sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v \${PWD}:/goSem semgrep/semgrep semgrep ci "
 
 
             }
@@ -38,6 +37,8 @@ pipeline {
                     // Run GoSec and output results to 'gosec-report.json'
                     sh 'gosec -fmt=json -out=gosec-report.json ./...'
                     sh 'golangci-lint run ./... > golangci-report.txt'
+                   sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v \${PWD}:/goSem semgrep/semgrep semgrep ci "
+
                     
                 }
             }
