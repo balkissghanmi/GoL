@@ -39,7 +39,7 @@ pipeline {
                     sh 'golangci-lint run ./... > golangci-report.txt'
                     sh'pwd'
              sh "ls -la"
-                   sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v \${PWD}:/goSem semgrep/semgrep semgrep ci "
+                   sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v ${PWD}:/goSem semgrep/semgrep semgrep ci "
 
                     
                 }
