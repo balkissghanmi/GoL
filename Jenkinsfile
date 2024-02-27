@@ -37,6 +37,8 @@ pipeline {
                     // Run GoSec and output results to 'gosec-report.json'
                     sh 'gosec -fmt=json -out=gosec-report.json ./...'
                     sh 'golangci-lint run ./... > golangci-report.txt'
+                    sh'pwd'
+             sh "ls -la"
                    sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v \${PWD}:/goSem semgrep/semgrep semgrep ci "
 
                     
