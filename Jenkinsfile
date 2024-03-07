@@ -41,7 +41,7 @@ pipeline {
              sh "ls -la"
                   // sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v ${PWD}:/goSem semgrep/semgrep semgrep ci "
                 sh"docker run -e SEMGREP_APP_TOKEN=1c87866c63498142b962151e4b3f762e2d7b7b5985048391c299968d474708b8 --rm -v /var/lib/jenkins/workspace/GoL:/goSem -w /goSem semgrep/semgrep semgrep ci"
-                sh "echo ${test}"   
+                sh "echo ${TEST}"   
                 }
             }
         }
