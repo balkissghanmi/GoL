@@ -46,26 +46,26 @@ pipeline {
             }
         }
 
-   stage('SonarQube Analysis') {
-      steps {
-        script {
-        withSonarQubeEnv (installationName: 'sonarqube-scanner') {
-          sh "/opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=${SONARKEY} -Dsonar.sources=. -Dsonar.host.url=${SONARURL} -Dsonar.login=${SONARLOGIN} "
+//    stage('SonarQube Analysis') {
+//       steps {
+//         script {
+//         withSonarQubeEnv (installationName: 'sonarqube-scanner') {
+//           sh "/opt/sonar-scanner/bin/sonar-scanner -Dsonar.projectKey=${SONARKEY} -Dsonar.sources=. -Dsonar.host.url=${SONARURL} -Dsonar.login=${SONARLOGIN} "
+//         }
+//       }
+//     }
+//     }
+    stage('Docker'){
+        steps {
+            script{
+                sh "docker build -t ${STAGING_TAG} ."
+                withCredentials([usernamePassword(credentialsId: 'tc', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                sh "docker push ${STAGING_TAG}"
+            } 
         }
-      }
     }
     }
-    // stage('Docker'){
-    //     steps {
-    //         script{
-    //             sh "docker build -t ${STAGING_TAG} ."
-    //             withCredentials([usernamePassword(credentialsId: 'tc', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-    //             sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
-    //             sh "docker push ${STAGING_TAG}"
-    //         }
-    //     }
-    // }
-    // }
     
     }
     
