@@ -1,12 +1,8 @@
-FROM golang:1.22
-# Set destination for COPY
-WORKDIR /app
-# Download Go modules
-COPY go.mod  ./
-COPY *.go ./
-# Build
-RUN go build -o /docker-gs-ping
-EXPOSE 8181
+FROM golang:1.22 
 
-# Run
-#CMD ["/docker-gs-ping"]
+WORKDIR /app
+
+COPY go.mod  .
+COPY sum.go  .
+RUN  go build -o sum .
+ENTRYPOINT ["/app/sum"]
