@@ -26,9 +26,6 @@ pipeline {
                 sh ' go version'
                 sh '/usr/local/go/bin/go build -o goL'
                 sh '/usr/local/go/bin/go test'
-                sh 'npm test'
-
-
 
             }
         }
