@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-        stage("go version") {
+        stage("Go Build") {
             steps {
                 sh 'pwd'
                 sh ' go version'
@@ -29,15 +29,11 @@ pipeline {
 
             }
         }
-        stage("GoSec Security Scan") {
+        stage("Go Security Scan") {
             steps {
                 script {
                     sh 'gosec ./...'
-                    // Run GoSec and output results to 'gosec-report.json'
-                    //sh 'gosec -fmt=json -out=gosec-report.json ./...'
                      sh 'golangci-lint run ./... '
-                   // sh 'golangci-lint run ./... > golangci-report.txt'
-                  // sh "docker run -e SEMGREP_APP_TOKEN=${SEMGREP_APP_TOKEN} --rm -v ${PWD}:/goSem semgrep/semgrep semgrep ci "
                 
                 //sh"docker run -e SEMGREP_APP_TOKEN=1c87866c63498142b962151e4b3f762e2d7b7b5985048391c299968d474708b8 --rm -v /var/lib/jenkins/workspace/GoL:/goSem -w /goSem semgrep/semgrep semgrep ci"
                 
@@ -55,17 +51,17 @@ pipeline {
 //     }
 //     }
 
-    // stage('Docker'){
-    //     steps {
-    //         script{
-    //             sh "docker build -t ${STAGING_TAG} ."
-    //             withCredentials([usernamePassword(credentialsId: 'tc', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-    //             sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
-    //             sh "docker push ${STAGING_TAG}"
-    //         } 
-    //     }
-    // }
-    // }
+    stage('Docker'){
+        steps {
+            script{
+                sh "docker build -t ${STAGING_TAG} ."
+                withCredentials([usernamePassword(credentialsId: 'tc', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                sh "docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_PASSWORD}"
+                sh "docker push ${STAGING_TAG}"
+            } 
+        }
+    }
+    }
     
     }
     }
