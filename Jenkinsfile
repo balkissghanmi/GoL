@@ -20,21 +20,19 @@ pipeline {
                 }
             }
         }
-        stage("Go Build") {
+        stage("Go Build and Test") {
             steps {
                 sh 'pwd'
                 sh ' go version'
                 sh '/usr/local/go/bin/go build -o goL'
                 sh '/usr/local/go/bin/go test'
-
+                sh 'gosec ./...'
+                sh 'golangci-lint run ./... '
             }
         }
-        stage("Go Security Scan") {
+        stage("Go SAST") {
             steps {
                 script {
-                    sh 'gosec ./...'
-                     sh 'golangci-lint run ./... '
-                
                 //sh"docker run -e SEMGREP_APP_TOKEN=1c87866c63498142b962151e4b3f762e2d7b7b5985048391c299968d474708b8 --rm -v /var/lib/jenkins/workspace/GoL:/goSem -w /goSem semgrep/semgrep semgrep ci"
                 
                 }
