@@ -30,14 +30,14 @@ pipeline {
                 sh 'golangci-lint run ./... '
             }
         }
-        stage("Go SAST") {
-            steps {
-                script {
-                //sh"docker run -e SEMGREP_APP_TOKEN=1c87866c63498142b962151e4b3f762e2d7b7b5985048391c299968d474708b8 --rm -v /var/lib/jenkins/workspace/GoL:/goSem -w /goSem semgrep/semgrep semgrep ci"
+        // stage("Go SAST") {
+        //     steps {
+        //         script {
+        //         //sh"docker run -e SEMGREP_APP_TOKEN=1c87866c63498142b962151e4b3f762e2d7b7b5985048391c299968d474708b8 --rm -v /var/lib/jenkins/workspace/GoL:/goSem -w /goSem semgrep/semgrep semgrep ci"
                 
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
 //    stage('SonarQube Analysis') {
 //       steps {
